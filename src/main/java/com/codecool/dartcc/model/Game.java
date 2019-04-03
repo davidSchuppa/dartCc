@@ -10,7 +10,6 @@ import java.util.ArrayList;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
 public class Game {
     private int round;
     private ArrayList players = new ArrayList();
