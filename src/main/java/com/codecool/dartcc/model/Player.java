@@ -9,7 +9,6 @@ import javax.persistence.Entity;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
 public class Player {
     private String name;
     private long id;
