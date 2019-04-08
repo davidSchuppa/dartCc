@@ -1,4 +1,9 @@
 package com.codecool.dartcc.repository;
 
-public interface GameRepository {
+import com.codecool.dartcc.model.Game;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface GameRepository extends JpaRepository<Game, Long> {
+
+
 }
