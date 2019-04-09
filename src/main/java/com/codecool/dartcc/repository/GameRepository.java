@@ -3,11 +3,15 @@ package com.codecool.dartcc.repository;
 import com.codecool.dartcc.model.Game;
 import com.codecool.dartcc.model.Player;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
 public interface GameRepository extends JpaRepository<Game, Long> {
 
-    List<Game> findAllByP1OrP2Equals(Player playerOne, Player playerTwo);
+    Game getGameById(long id);
 
+    List<Game> findAllByP1OrP2Equals(Player playerOne, Player playerTwo);
 }

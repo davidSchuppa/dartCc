@@ -2,7 +2,6 @@ package com.codecool.dartcc.repository;
 
 import com.codecool.dartcc.model.Game;
 import com.codecool.dartcc.model.Player;
-import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
 import org.junit.runner.RunWith;
@@ -10,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -65,5 +65,20 @@ public class GameRepositoryTest {
 
         List<Game> games = gameRepository.findAllByP1OrP2Equals(p1, p1);
         assertThat(games).hasSize(2);
+    }
+
+    @Test
+    public void testUpdateGame() {
+        Player p1 = Player.builder().name("John").build();
+        Player p2 = Player.builder().name("Jane").build();
+
+        Game testGame = Game.builder().p1(p1).p2(p2).build();
+
+        gameRepository.saveAndFlush(testGame);
+
+        testGame.setNumberOfDoubles(5);
+        gameRepository.save(testGame);
+        Game game = gameRepository.getGameById(1);
+        assertThat(game.getNumberOfDoubles()).isEqualTo(5);
     }
 }
