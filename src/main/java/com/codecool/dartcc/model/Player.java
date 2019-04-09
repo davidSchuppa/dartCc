@@ -1,24 +1,26 @@
 package com.codecool.dartcc.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import lombok.*;
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
 @Entity
 public class Player {
+
     @Id
     @GeneratedValue
     private long id;
     private String name;
+
+    @Builder.Default
+    @ManyToMany(mappedBy = "players", cascade = CascadeType.ALL)
+    @EqualsAndHashCode.Exclude
+    private Set<Game> games = new HashSet<>();
 //    private String email;
 //    private int gamesPlayed;
 //    private int bestOfThree;
@@ -27,6 +29,4 @@ public class Player {
 //    private int pointRemaining;
 //    private double scorePerDart;
 //    private double scorePerRound;
-
-
 }
