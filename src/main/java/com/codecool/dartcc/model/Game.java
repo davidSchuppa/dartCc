@@ -27,7 +27,10 @@ public class Game {
             inverseJoinColumns = @JoinColumn(name = "player_id"))
     @EqualsAndHashCode.Exclude
     private Set<Player> players = new HashSet<>();
-
+    @OneToOne(cascade = CascadeType.ALL)
+    private Player p1;
+    @OneToOne(cascade = CascadeType.ALL)
+    private Player p2;
 //    private int numberOfTriples;
 //    private Player winner;
 //    private GameType gameType;
