@@ -8,5 +8,6 @@ import java.util.List;
 
 public interface GameRepository extends JpaRepository<Game, Long> {
 
-    List<Game> findAllByPlayersContaining(Player player);
+    List<Game> findAllByP1OrP2Equals(Player playerOne, Player playerTwo);
+
 }

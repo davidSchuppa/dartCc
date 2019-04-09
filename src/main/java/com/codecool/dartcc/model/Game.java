@@ -19,14 +19,6 @@ public class Game {
     private int round;
     private int numberOfDoubles;
 
-    @Singular
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "games_players",
-            joinColumns = @JoinColumn(name = "game_id"),
-            inverseJoinColumns = @JoinColumn(name = "player_id"))
-    @EqualsAndHashCode.Exclude
-    private Set<Player> players = new HashSet<>();
     @OneToOne(cascade = CascadeType.ALL)
     private Player p1;
     @OneToOne(cascade = CascadeType.ALL)

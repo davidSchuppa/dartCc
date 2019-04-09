@@ -17,10 +17,6 @@ public class Player {
     private long id;
     private String name;
 
-    @Builder.Default
-    @ManyToMany(mappedBy = "players", cascade = CascadeType.ALL)
-    @EqualsAndHashCode.Exclude
-    private Set<Game> games = new HashSet<>();
 //    private String email;
 //    private int gamesPlayed;
 //    private int bestOfThree;

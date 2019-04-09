@@ -55,21 +55,15 @@ public class GameRepositoryTest {
         Player p3 = Player.builder().name("Joe").build();
 
 
-        Game testGame = Game.builder().player(p1).player(p2).p1(p1).p2(p2).build();
-        Game testGame2 = Game.builder().player(p2).player(p3).p1(p2).p2(p3).build();
-        Game testGame3 = Game.builder().player(p2).player(p1).p1(p2).p2(p1).build();
+        Game testGame = Game.builder().p1(p1).p2(p2).build();
+        Game testGame2 = Game.builder().p1(p2).p2(p3).build();
+        Game testGame3 = Game.builder().p1(p2).p2(p1).build();
 
-        p1.getGames().add(testGame);
-        p2.getGames().add(testGame);
         gameRepository.saveAndFlush(testGame);
-        p3.getGames().add(testGame2);
-        p2.getGames().add(testGame2);
         gameRepository.saveAndFlush(testGame2);
-        p1.getGames().add(testGame3);
-        p2.getGames().add(testGame3);
         gameRepository.saveAndFlush(testGame3);
 
-        List<Game> games = gameRepository.findAllByPlayersContaining(p1);
-        assertThat(games.get(1)).isEqualTo(testGame3);
+        List<Game> games = gameRepository.findAllByP1OrP2Equals(p1, p1);
+        assertThat(games).hasSize(2);
     }
 }
