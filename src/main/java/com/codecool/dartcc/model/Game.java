@@ -1,19 +1,27 @@
 package com.codecool.dartcc.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-import java.util.ArrayList;
+import javax.persistence.*;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public  class Game {
+@Builder
+@Entity
+public class Game {
+
+    @Id
+    @GeneratedValue
+    private long id;
     private int round;
-    private ArrayList players = new ArrayList();
     private int numberOfDoubles;
-    private int numberOfTriples;
-    private Player winner;
-    private GameType gameType;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    private Player p1;
+    @OneToOne(cascade = CascadeType.ALL)
+    private Player p2;
+//    private int numberOfTriples;
+//    private Player winner;
+//    private GameType gameType;
 }

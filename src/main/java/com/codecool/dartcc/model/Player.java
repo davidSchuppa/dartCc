@@ -1,25 +1,26 @@
 package com.codecool.dartcc.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-import javax.persistence.Entity;
+import lombok.*;
+import javax.persistence.*;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@Entity
 public class Player {
-    private String name;
+
+    @Id
+    @GeneratedValue
     private long id;
-    private String email;
-    private int gamesPlayed;
-    private int bestOfThree;
-    private int wins;
-    private int actualScore;
-    private int pointRemaining;
-    private double scorePerDart;
-    private double scorePerRound;
+    private String name;
 
-
+//    private String email;
+//    private int gamesPlayed;
+//    private int bestOfThree;
+//    private int wins;
+//    private int actualScore;
+//    private int pointRemaining;
+//    private double scorePerDart;
+//    private double scorePerRound;
 }
