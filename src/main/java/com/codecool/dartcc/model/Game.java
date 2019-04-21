@@ -12,7 +12,8 @@ import javax.persistence.*;
 public class Game {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", updatable = false, nullable = false)
     private long id;
     private int round;
     private int numberOfDoubles;
