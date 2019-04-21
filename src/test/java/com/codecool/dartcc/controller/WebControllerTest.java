@@ -1,5 +1,6 @@
 package com.codecool.dartcc.controller;
 
+import com.codecool.dartcc.repository.GameRepository;
 import com.codecool.dartcc.service.GameService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
@@ -28,7 +29,6 @@ public class WebControllerTest {
     @MockBean
     GameService mockGameService;
 
-
     @Test
     public void testIndexMethod() throws Exception {
 
@@ -39,7 +39,7 @@ public class WebControllerTest {
     @Test
     public void testCreateGameRoute() throws Exception {
 
-        when(mockGameService.createGame()).thenReturn(1L);
+        when(mockGameService.createGame("dummyNames")).thenReturn(1L);
 
         Object playerNames = new Object() {
             public final String playerOne = "Peti";
