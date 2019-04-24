@@ -26,9 +26,6 @@ public class GameRepositoryTest {
     @Autowired
     GameRepository gameRepository;
 
-    @Autowired
-    PlayerRepository playerRepository;
-
     @Test
     public void smoke() {
         assertTrue(true);
