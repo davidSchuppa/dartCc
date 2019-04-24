@@ -26,9 +26,6 @@ public class GameRepositoryTest {
     @Autowired
     GameRepository gameRepository;
 
-    @Autowired
-    PlayerRepository playerRepository;
-
     @Test
     public void smoke() {
         assertTrue(true);
@@ -64,6 +61,18 @@ public class GameRepositoryTest {
 
         List<Game> games = gameRepository.findAllByP1OrP2Equals(p1, p1);
         assertThat(games).hasSize(2);
+    }
+
+    @Test
+    public void testGameIdIncrementsProperly() {
+        Game test1 = Game.builder().build();
+        Game test2 = Game.builder().build();
+        Game test3 = Game.builder().build();
+        gameRepository.saveAndFlush(test1);
+        gameRepository.saveAndFlush(test2);
+        gameRepository.saveAndFlush(test3);
+
+        assertThat(test2.getId()).isEqualTo(2);
     }
 
     @Test

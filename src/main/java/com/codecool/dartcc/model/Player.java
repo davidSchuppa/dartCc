@@ -13,6 +13,8 @@ public class Player {
     @Id
     @GeneratedValue
     private long id;
+
+    @Column(name = "name", unique = true)
     private String name;
 
 //    private String email;
