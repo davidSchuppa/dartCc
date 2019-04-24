@@ -1,6 +1,5 @@
 package com.codecool.dartcc.controller;
 
-import com.codecool.dartcc.repository.GameRepository;
 import com.codecool.dartcc.service.GameService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
