@@ -1,16 +1,24 @@
 package com.codecool.dartcc.service;
 
-import com.codecool.dartcc.repository.GameRepository;
+import com.codecool.dartcc.DartCcApplication;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@RunWith(SpringRunner.class)
+@ActiveProfiles("test")
+@SpringBootTest(classes = DartCcApplication.class)
 public class GameServiceTest {
 
-    private GameService gameService = new GameService();
+    @Autowired
+    private GameService gameService;
 
     @Test
     public void testCreateGameReturnsLastGameId() throws JsonProcessingException {
