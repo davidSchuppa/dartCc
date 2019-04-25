@@ -20,14 +20,14 @@ public class WebController {
         return "index";
     }
 
-    @PostMapping(value="/create-game", headers = "Accept=application/json")
-    public ResponseEntity<?> createGame(@RequestBody String data){
+    @PostMapping(value = "/create-game", headers = "Accept=application/json")
+    public ResponseEntity<?> createGame(@RequestBody String data) {
         long gameId = gameService.createGame(data);
         return new ResponseEntity<>(gameId, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/turn", headers = "Accept=application/json")
-    public String turn(){
+    @PutMapping(value = "/turn", headers = "Accept=application/json")
+    public String turn() {
         return "";
     }
 }

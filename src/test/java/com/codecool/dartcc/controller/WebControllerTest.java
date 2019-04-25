@@ -11,7 +11,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -21,12 +20,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @WebMvcTest(WebController.class)
 public class WebControllerTest {
-
     @Autowired
     private MockMvc mvc;
 
     @MockBean
-    GameService mockGameService;
+    private GameService mockGameService;
 
     @Test
     public void testIndexMethod() throws Exception {
@@ -36,10 +34,7 @@ public class WebControllerTest {
     }
 
     @Test
-    public void testCreateGameRoute() throws Exception {
-
-        when(mockGameService.createGame("dummyNames")).thenReturn(1L);
-
+    public void testCreateGameReturnsOkWhenValidBody() throws Exception {
         Object playerNames = new Object() {
             public final String playerOne = "Peti";
             public final String playerTwo = "Feri";
@@ -49,10 +44,9 @@ public class WebControllerTest {
         String reqBody = mapper.writeValueAsString(playerNames);
 
         mvc.perform(post("/create-game")
-                        .contentType(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
                         .content(reqBody)
         )
-                .andExpect(status().isOk())
-                .andExpect(content().string("1"));
+                .andExpect(status().isOk());
     }
 }

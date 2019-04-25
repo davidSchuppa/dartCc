@@ -2,6 +2,7 @@ package com.codecool.dartcc.model;
 
 import lombok.*;
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Data
 @AllArgsConstructor
@@ -14,15 +15,15 @@ public class Player {
     @GeneratedValue
     private long id;
 
+    @NotNull
     @Column(name = "name", unique = true)
     private String name;
 
-//    private String email;
-//    private int gamesPlayed;
-//    private int bestOfThree;
-//    private int wins;
-//    private int actualScore;
-//    private int pointRemaining;
-//    private double scorePerDart;
-//    private double scorePerRound;
+    private int gamesPlayed;
+    private int bestOfThree;
+    private int wins;
+    private int actualScore;
+    private int pointRemaining;
+    private double scorePerDart;
+    private double scorePerRound;
 }
