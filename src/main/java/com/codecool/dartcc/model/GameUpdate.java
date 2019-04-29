@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class GameUpdateDAO {
+public class GameUpdate {
 
     long id;
     int round;

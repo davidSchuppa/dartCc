@@ -2,7 +2,7 @@ package com.codecool.dartcc.service;
 
 import com.codecool.dartcc.exception.GameNotFoundException;
 import com.codecool.dartcc.model.Game;
-import com.codecool.dartcc.model.GameUpdateDAO;
+import com.codecool.dartcc.model.GameUpdate;
 import com.codecool.dartcc.model.Player;
 import com.codecool.dartcc.repository.GameRepository;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -46,7 +46,7 @@ public class GameService {
     public void updateGame(String gameJson) throws GameNotFoundException {
         try {
             JsonNode gameData = mapper.readTree(gameJson).get("game");
-            GameUpdateDAO updateData= mapper.treeToValue(gameData, GameUpdateDAO.class);
+            GameUpdate updateData= mapper.treeToValue(gameData, GameUpdate.class);
 
             Game gameToUpdate = gameRepository.findGameById(updateData.getId());
             if (gameToUpdate == null) {
