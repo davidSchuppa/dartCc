@@ -1,5 +1,6 @@
 package com.codecool.dartcc.controller;
 
+import com.codecool.dartcc.exception.GameNotFoundException;
 import com.codecool.dartcc.service.GameService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +28,14 @@ public class WebController {
     }
 
     @PutMapping(value = "/turn", headers = "Accept=application/json")
-    public String turn(@RequestBody String gameData) {
-        gameService.updateGame(gameData);
-        return "";
+    public ResponseEntity<?> turn(@RequestBody String gameData) {
+        HttpStatus status = HttpStatus.OK;
+        try {
+            gameService.updateGame(gameData);
+        } catch (GameNotFoundException e) {
+            e.printStackTrace();
+            status = HttpStatus.BAD_REQUEST;
+        }
+        return new ResponseEntity<>(status);
     }
 }

@@ -1,8 +1,8 @@
 package com.codecool.dartcc.service;
 
 import com.codecool.dartcc.DartCcApplication;
+import com.codecool.dartcc.exception.GameNotFoundException;
 import com.codecool.dartcc.model.Game;
-import com.codecool.dartcc.model.Player;
 import com.codecool.dartcc.repository.GameRepository;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -93,7 +92,11 @@ public class GameServiceTest {
 
         gameRepository.save(game);
 
-        gameService.updateGame(gameJson);
+        try {
+            gameService.updateGame(gameJson);
+        } catch (GameNotFoundException e) {
+            e.printStackTrace();
+        }
 
         Game updatedGame = gameRepository.findGameById(1);
         assertEquals(8, updatedGame.getNumberOfTriples());
