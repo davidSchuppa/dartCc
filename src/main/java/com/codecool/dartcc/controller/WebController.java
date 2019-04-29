@@ -27,7 +27,8 @@ public class WebController {
     }
 
     @PutMapping(value = "/turn", headers = "Accept=application/json")
-    public String turn() {
+    public String turn(@RequestBody String gameData) {
+        gameService.updateGame(gameData);
         return "";
     }
 }

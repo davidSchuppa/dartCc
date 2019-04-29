@@ -41,8 +41,8 @@ public class WebControllerTest {
     };
 
     private Object turnRequest = new Object() {
-        public Player playerOne = Player.builder().name("Peti").build();
-        public Player playerTwo = Player.builder().name("Feri").build();
+        public Player playerOne = Player.builder().name("Peti").wins(0).bestOfThree(60).scorePerDart(20.1).scorePerRound(32.2).build();
+        public Player playerTwo = Player.builder().name("Feri").wins(1).bestOfThree(30).scorePerDart(15.5).scorePerRound(10.3).build();
         public Game game = Game.builder()
                 .p1(playerOne)
                 .p2(playerTwo)
