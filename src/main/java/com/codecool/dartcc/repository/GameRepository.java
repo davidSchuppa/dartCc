@@ -13,4 +13,6 @@ public interface GameRepository extends JpaRepository<Game, Long> {
     Game getGameById(long id);
 
     List<Game> findAllByP1OrP2Equals(Player playerOne, Player playerTwo);
+
+    Game findGameById(long id);
 }

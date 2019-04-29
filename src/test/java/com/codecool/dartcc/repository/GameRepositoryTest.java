@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -21,6 +22,7 @@ import static org.junit.Assert.*;
 @DataJpaTest
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
 @ActiveProfiles("test")
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 public class GameRepositoryTest {
 
     @Autowired
@@ -61,6 +63,19 @@ public class GameRepositoryTest {
 
         List<Game> games = gameRepository.findAllByP1OrP2Equals(p1, p1);
         assertThat(games).hasSize(2);
+    }
+
+    @Test
+    public void testFindGameById() {
+        Game testGame1 = Game.builder().build();
+        Game testGame2 = Game.builder().build();
+
+        gameRepository.saveAndFlush(testGame1);
+        gameRepository.saveAndFlush(testGame2);
+
+        Game gameById = gameRepository.findGameById(2L);
+
+        assertThat(gameById).isEqualTo(testGame2);
     }
 
     @Test

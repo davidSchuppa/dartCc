@@ -16,13 +16,16 @@ public class Game {
     @Column(name = "id", updatable = false, nullable = false)
     private long id;
     private int round;
-    private int numberOfDoubles;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Player p1;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Player p2;
-//    private int numberOfTriples;
-//    private Player winner;
+
+    private int numberOfDoubles;
+    private int numberOfTriples;
+
+    @OneToOne
+    private Player winner;
 //    private GameType gameType;
 }
