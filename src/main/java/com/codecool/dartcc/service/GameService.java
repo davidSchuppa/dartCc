@@ -1,6 +1,7 @@
 package com.codecool.dartcc.service;
 
 import com.codecool.dartcc.exception.GameNotFoundException;
+import com.codecool.dartcc.exception.PlayerUpdateException;
 import com.codecool.dartcc.model.Game;
 import com.codecool.dartcc.model.GameUpdate;
 import com.codecool.dartcc.model.Player;
@@ -11,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class GameService {
@@ -28,8 +31,9 @@ public class GameService {
     public long createGame(String playerNames) {
         long gameId = 0;
         try {
-            String playerOne = String.valueOf(mapper.readTree(playerNames).get("playerOne"));
-            String playerTwo = String.valueOf(mapper.readTree(playerNames).get("playerTwo"));
+            Map<String, String> names = mapper.readValue(playerNames, Map.class);
+            String playerOne = names.get("playerOne");
+            String playerTwo = names.get("playerTwo");
 
             Player p1 = playerService.savePlayer(playerOne);
             Player p2 = playerService.savePlayer(playerTwo);
@@ -45,6 +49,7 @@ public class GameService {
 
     public void updateGame(String gameJson) throws GameNotFoundException {
         try {
+            playerService.updatePlayersStats(gameJson);
             JsonNode gameData = mapper.readTree(gameJson).get("game");
             GameUpdate updateData= mapper.treeToValue(gameData, GameUpdate.class);
 
@@ -57,7 +62,7 @@ public class GameService {
             gameToUpdate.setNumberOfTriples(updateData.getTriples());
             gameRepository.saveAndFlush(gameToUpdate);
 
-        } catch (IOException e) {
+        } catch (IOException | PlayerUpdateException e) {
             e.printStackTrace();
         }
 

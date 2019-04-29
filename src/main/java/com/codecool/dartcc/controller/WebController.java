@@ -23,6 +23,8 @@ public class WebController {
 
     @PostMapping(value = "/create-game", headers = "Accept=application/json")
     public ResponseEntity<?> createGame(@RequestBody String data) {
+        //TODO
+        //Increment players games played stat when game is created
         long gameId = gameService.createGame(data);
         return new ResponseEntity<>(gameId, HttpStatus.OK);
     }
