@@ -1,5 +1,6 @@
 package com.codecool.dartcc.service;
 
+import com.codecool.dartcc.exception.GameNotFoundException;
 import com.codecool.dartcc.model.Game;
 import com.codecool.dartcc.model.GameUpdateDAO;
 import com.codecool.dartcc.model.Player;
@@ -42,12 +43,15 @@ public class GameService {
         return gameId;
     }
 
-    public void updateGame(String gameJson) {
+    public void updateGame(String gameJson) throws GameNotFoundException {
         try {
             JsonNode gameData = mapper.readTree(gameJson).get("game");
             GameUpdateDAO updateData= mapper.treeToValue(gameData, GameUpdateDAO.class);
 
             Game gameToUpdate = gameRepository.findGameById(updateData.getId());
+            if (gameToUpdate == null) {
+                throw new GameNotFoundException("No game found with the given id");
+            }
             gameToUpdate.setRound(updateData.getRound());
             gameToUpdate.setNumberOfDoubles(updateData.getDoubles());
             gameToUpdate.setNumberOfTriples(updateData.getTriples());
