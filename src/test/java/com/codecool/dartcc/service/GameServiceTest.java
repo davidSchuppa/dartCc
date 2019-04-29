@@ -3,6 +3,7 @@ package com.codecool.dartcc.service;
 import com.codecool.dartcc.DartCcApplication;
 import com.codecool.dartcc.exception.GameNotFoundException;
 import com.codecool.dartcc.model.Game;
+import com.codecool.dartcc.model.Player;
 import com.codecool.dartcc.repository.GameRepository;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
@@ -88,6 +89,8 @@ public class GameServiceTest {
                 .round(1)
                 .numberOfTriples(4)
                 .numberOfDoubles(2)
+                .p1(Player.builder().name("Peti").build())
+                .p2(Player.builder().name("Feri").build())
                 .build();
 
         gameRepository.save(game);

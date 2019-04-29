@@ -22,7 +22,6 @@ public class Player {
     private int gamesPlayed;
     private int bestOfThree;
     private int wins;
-    private int pointRemaining;
-    private double scorePerDart;
-    private double scorePerRound;
+    private double avgPerDart;
+    private double avgPerRound;
 }
