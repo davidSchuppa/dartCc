@@ -39,9 +39,15 @@ public class WebController {
         return new ResponseEntity<>(status);
     }
 
+    @GetMapping("/hint-2/{score}")
+    public String getHintFor2Dart(@PathVariable("score") int score) {
+        String hintFor2 = gameService.getHintFor2Dart(score);
+        return hintFor2;
+    }
+
     @GetMapping("/hint-3/{score}")
     public String getHintFor3Dart(@PathVariable("score") int score) {
-        String hint = gameService.getHintFor3Dart(score);
-        return hint;
+        String hintFor3 = gameService.getHintFor3Dart(score);
+        return hintFor3;
     }
 }
