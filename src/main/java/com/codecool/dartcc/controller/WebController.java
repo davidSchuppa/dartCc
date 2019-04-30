@@ -40,4 +40,10 @@ public class WebController {
         }
         return new ResponseEntity<>(status);
     }
+
+    @GetMapping("/hint-3/{score}")
+    public String getHintFor3Dart(@PathVariable("score") int score) {
+        String hint = gameService.getHintFor3Dart(score);
+        return hint;
+    }
 }

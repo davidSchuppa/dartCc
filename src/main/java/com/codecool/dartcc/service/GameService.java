@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 
 @Service
@@ -66,5 +65,10 @@ public class GameService {
             e.printStackTrace();
         }
 
+    }
+
+    public String getHintFor3Dart(int score) {
+
+        return null;
     }
 }
