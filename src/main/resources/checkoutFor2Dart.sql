@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS "checkouts_2darts" (
-    "score" INT,
+    "score" INT PRIMARY KEY,
     "checkout" VARCHAR
 );
 INSERT INTO "checkouts_2darts" VALUES

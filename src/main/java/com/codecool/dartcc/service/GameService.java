@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @Service
 public class GameService {
@@ -78,10 +77,7 @@ public class GameService {
     }
 
     public String getHintFor3Dart(int score) {
-        List<CheckoutFor3Dart> checkouts = hintFor3Repository.findAll();
-        CheckoutFor3Dart ch = hintFor3Repository.findCheckoutFor3DartsByScore(score);
-        System.out.println(ch.getCheckout());
-        System.out.println(checkouts.toString());
-        return "";
+        CheckoutFor3Dart checkout = hintFor3Repository.findCheckoutFor3DartsByScore(score);
+        return checkout.getCheckout();
     }
 }
