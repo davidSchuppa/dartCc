@@ -23,8 +23,6 @@ public class WebController {
 
     @PostMapping(value = "/create-game", headers = "Accept=application/json")
     public ResponseEntity<?> createGame(@RequestBody String data) {
-        //TODO
-        //Increment players games played stat when game is created
         long gameId = gameService.createGame(data);
         return new ResponseEntity<>(gameId, HttpStatus.OK);
     }
@@ -39,5 +37,17 @@ public class WebController {
             status = HttpStatus.BAD_REQUEST;
         }
         return new ResponseEntity<>(status);
+    }
+
+    @GetMapping("/hint-2/{score}")
+    public String getHintFor2Dart(@PathVariable("score") int score) {
+        String hintFor2 = gameService.getHintFor2Dart(score);
+        return hintFor2;
+    }
+
+    @GetMapping("/hint-3/{score}")
+    public String getHintFor3Dart(@PathVariable("score") int score) {
+        String hintFor3 = gameService.getHintFor3Dart(score);
+        return hintFor3;
     }
 }

@@ -2,17 +2,16 @@ package com.codecool.dartcc.service;
 
 import com.codecool.dartcc.exception.GameNotFoundException;
 import com.codecool.dartcc.exception.PlayerUpdateException;
-import com.codecool.dartcc.model.Game;
-import com.codecool.dartcc.model.GameUpdate;
-import com.codecool.dartcc.model.Player;
+import com.codecool.dartcc.model.*;
 import com.codecool.dartcc.repository.GameRepository;
+import com.codecool.dartcc.repository.HintFor2Repository;
+import com.codecool.dartcc.repository.HintFor3Repository;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 
 @Service
@@ -20,6 +19,12 @@ public class GameService {
 
     @Autowired
     private GameRepository gameRepository;
+
+    @Autowired
+    private HintFor3Repository hintFor3Repository;
+
+    @Autowired
+    private HintFor2Repository hintFor2Repository;
 
     @Autowired
     private PlayerService playerService;
@@ -39,6 +44,9 @@ public class GameService {
             Player p2 = playerService.savePlayer(playerTwo);
 
             Game newGame = Game.builder().p1(p1).p2(p2).build();
+
+            p1.setGamesPlayed(p1.getGamesPlayed() + 1);
+            p2.setGamesPlayed(p2.getGamesPlayed() + 1);
             gameRepository.saveAndFlush(newGame);
             gameId = newGame.getId();
         } catch (IOException e) {
@@ -66,5 +74,15 @@ public class GameService {
             e.printStackTrace();
         }
 
+    }
+
+    public String getHintFor2Dart(int score) {
+        CheckoutFor2Dart checkout = hintFor2Repository.findCheckoutFor2DartsByScore(score);
+        return checkout.getCheckout();
+    }
+
+    public String getHintFor3Dart(int score) {
+        CheckoutFor3Dart checkout = hintFor3Repository.findCheckoutFor3DartsByScore(score);
+        return checkout.getCheckout();
     }
 }
