@@ -1,6 +1,7 @@
 package com.codecool.dartcc.controller;
 
 import com.codecool.dartcc.exception.GameNotFoundException;
+import com.codecool.dartcc.exception.NoCheckoutFoundException;
 import com.codecool.dartcc.service.GameService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,13 +42,25 @@ public class WebController {
 
     @GetMapping("/hint-2/{score}")
     public String getHintFor2Dart(@PathVariable("score") int score) {
-        String hintFor2 = gameService.getHintFor2Dart(score);
+        String hintFor2 = null;
+        try {
+            hintFor2 = gameService.getHintFor2Dart(score);
+        } catch (NoCheckoutFoundException e) {
+            e.printStackTrace();
+            hintFor2 = "No possible checkout hint for 2 darts";
+        }
         return hintFor2;
     }
 
     @GetMapping("/hint-3/{score}")
     public String getHintFor3Dart(@PathVariable("score") int score) {
-        String hintFor3 = gameService.getHintFor3Dart(score);
+        String hintFor3 = null;
+        try {
+            hintFor3 = gameService.getHintFor3Dart(score);
+        } catch (NoCheckoutFoundException e) {
+            e.printStackTrace();
+            hintFor3 = "No possible checkout hint for 3 darts";
+        }
         return hintFor3;
     }
 }

@@ -1,11 +1,10 @@
 package com.codecool.dartcc.controller;
 
+import com.codecool.dartcc.exception.NoCheckoutFoundException;
 import com.codecool.dartcc.model.Game;
 import com.codecool.dartcc.model.Player;
 import com.codecool.dartcc.service.GameService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.aspectj.apache.bcel.util.Play;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -92,5 +91,61 @@ public class WebControllerTest {
                 .content(reqBody)
         )
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    public void testGetHintFor2DartRespondsWithHint() throws Exception {
+
+        try {
+            given(mockGameService.getHintFor2Dart(40)).willReturn("D20");
+        } catch (NoCheckoutFoundException e) {
+            e.printStackTrace();
+        }
+
+        mvc.perform(get("/hint-2/40"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("D20"));
+    }
+
+    @Test
+    public void testGetHintFor2DartRespondsWithErrorMessageIfCheckoutNotFound() throws Exception {
+
+        try {
+            given(mockGameService.getHintFor2Dart(170)).willThrow(NoCheckoutFoundException.class);
+        } catch (NoCheckoutFoundException e) {
+            e.printStackTrace();
+        }
+
+        mvc.perform(get("/hint-2/170"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("No possible checkout hint for 2 darts"));
+    }
+
+    @Test
+    public void testGetHintFor3DartRespondsWithHint() throws Exception {
+
+        try {
+            given(mockGameService.getHintFor3Dart(170)).willReturn("T20 T20 Bull");
+        } catch (NoCheckoutFoundException e) {
+            e.printStackTrace();
+        }
+
+        mvc.perform(get("/hint-3/170"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("T20 T20 Bull"));
+    }
+
+    @Test
+    public void testGetHintFor3DartRespondsWithErrorMessageIfCheckoutNotFound() throws Exception {
+
+        try {
+            given(mockGameService.getHintFor3Dart(190)).willThrow(NoCheckoutFoundException.class);
+        } catch (NoCheckoutFoundException e) {
+            e.printStackTrace();
+        }
+
+        mvc.perform(get("/hint-3/190"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("No possible checkout hint for 3 darts"));
     }
 }
