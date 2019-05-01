@@ -27,5 +27,4 @@ public class Game {
 
     @OneToOne
     private Player winner;
-//    private GameType gameType;
 }
