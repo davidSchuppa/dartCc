@@ -2,19 +2,26 @@ package com.codecool.dartcc.service;
 
 import com.codecool.dartcc.DartCcApplication;
 import com.codecool.dartcc.exception.GameNotFoundException;
+import com.codecool.dartcc.exception.NoCheckoutFoundException;
+import com.codecool.dartcc.model.CheckoutFor2Dart;
+import com.codecool.dartcc.model.CheckoutFor3Dart;
 import com.codecool.dartcc.model.Game;
 import com.codecool.dartcc.model.Player;
 import com.codecool.dartcc.repository.GameRepository;
+import com.codecool.dartcc.repository.HintFor2Repository;
+import com.codecool.dartcc.repository.HintFor3Repository;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -23,6 +30,7 @@ import javax.transaction.Transactional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
+import static org.mockito.BDDMockito.given;
 
 @RunWith(SpringRunner.class)
 @ActiveProfiles("test")
@@ -39,6 +47,12 @@ public class GameServiceTest {
 
     @Autowired
     private GameRepository gameRepository;
+
+    @MockBean
+    private HintFor2Repository mockHintFor2Repository;
+
+    @MockBean
+    private HintFor3Repository mockHintFor3Repository;
 
     public Object updateGameData = new Object() {
         Object game = new Object() {
@@ -64,10 +78,10 @@ public class GameServiceTest {
         };
     };
 
-        Object playerNames = new Object() {
-            public final String playerOne = "Peti";
-            public final String playerTwo = "Feri";
-        };
+    Object playerNames = new Object() {
+        public final String playerOne = "Peti";
+        public final String playerTwo = "Feri";
+    };
 
     @Test
     @Transactional
@@ -106,5 +120,55 @@ public class GameServiceTest {
         assertEquals(2, updatedGame.getRound());
     }
 
+    @Test
+    public void testGetHintFor2Dart() {
+        given(mockHintFor2Repository.findCheckoutFor2DartsByScore(40))
+                .willReturn(CheckoutFor2Dart.builder().score(40).checkout("D20").build());
 
+        try {
+            assertEquals("D20", gameService.getHintFor2Dart(40));
+        } catch (NoCheckoutFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testGetHintFor2DartThrowsExceptionWhenScoreIsNotInDB() {
+        given(mockHintFor2Repository.findCheckoutFor2DartsByScore(130))
+                .willReturn(null);
+
+        try {
+            gameService.getHintFor2Dart(130);
+        } catch (NoCheckoutFoundException e) {
+            e.printStackTrace();
+            String message = "No possible 2 dart checkout for score: 130";
+            assertEquals(message, e.getMessage());
+        }
+    }
+
+    @Test
+    public void testGetHintFor3Dart() {
+        given(mockHintFor3Repository.findCheckoutFor3DartsByScore(170))
+                .willReturn(CheckoutFor3Dart.builder().score(170).checkout("T20 T20 Bull").build());
+
+        try {
+            assertEquals("T20 T20 Bull", gameService.getHintFor3Dart(170));
+        } catch (NoCheckoutFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testGetHintFor3DartThrowsExceptionWhenScoreIsNotInDB() {
+        given(mockHintFor3Repository.findCheckoutFor3DartsByScore(200))
+                .willReturn(null);
+
+        try {
+            gameService.getHintFor3Dart(200);
+        } catch (NoCheckoutFoundException e) {
+            e.printStackTrace();
+            String message = "No possible 3 dart checkout for score: 200";
+            assertEquals(message, e.getMessage());
+        }
+    }
 }
