@@ -1,6 +1,7 @@
 package com.codecool.dartcc.service;
 
 import com.codecool.dartcc.exception.GameNotFoundException;
+import com.codecool.dartcc.exception.NoCheckoutFoundException;
 import com.codecool.dartcc.exception.PlayerUpdateException;
 import com.codecool.dartcc.model.*;
 import com.codecool.dartcc.repository.GameRepository;
@@ -76,13 +77,19 @@ public class GameService {
 
     }
 
-    public String getHintFor2Dart(int score) {
+    public String getHintFor2Dart(int score) throws NoCheckoutFoundException {
         CheckoutFor2Dart checkout = hintFor2Repository.findCheckoutFor2DartsByScore(score);
+        if (checkout == null) {
+            throw new NoCheckoutFoundException("No possible 2 dart checkout for score: " + score);
+        }
         return checkout.getCheckout();
     }
 
-    public String getHintFor3Dart(int score) {
+    public String getHintFor3Dart(int score) throws NoCheckoutFoundException {
         CheckoutFor3Dart checkout = hintFor3Repository.findCheckoutFor3DartsByScore(score);
+        if (checkout == null) {
+            throw new NoCheckoutFoundException("No possible 3 dart checkout for score: " + score);
+        }
         return checkout.getCheckout();
     }
 }
