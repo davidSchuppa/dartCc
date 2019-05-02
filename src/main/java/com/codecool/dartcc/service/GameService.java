@@ -66,6 +66,12 @@ public class GameService {
             if (gameToUpdate == null) {
                 throw new GameNotFoundException("No game found with the given id");
             }
+            if (updateData.getWinner() != null) {
+                Player winner = playerService.findPlayerByName(updateData.getWinner());
+                playerService.addWinToPlayer(winner);
+                gameToUpdate.setWinner(winner);
+                System.out.println(winner.getWins());
+            }
             gameToUpdate.setRound(updateData.getRound());
             gameToUpdate.setNumberOfDoubles(updateData.getDoubles());
             gameToUpdate.setNumberOfTriples(updateData.getTriples());
