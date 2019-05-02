@@ -47,7 +47,7 @@ public class WebController {
             hintFor2 = gameService.getHintFor2Dart(score);
         } catch (NoCheckoutFoundException e) {
             e.printStackTrace();
-            hintFor2 = "No possible checkout hint for 2 darts";
+            hintFor2 = "No hint :(";
         }
         return hintFor2;
     }
@@ -59,7 +59,7 @@ public class WebController {
             hintFor3 = gameService.getHintFor3Dart(score);
         } catch (NoCheckoutFoundException e) {
             e.printStackTrace();
-            hintFor3 = "No possible checkout hint for 3 darts";
+            hintFor3 = "No hint :(";
         }
         return hintFor3;
     }
