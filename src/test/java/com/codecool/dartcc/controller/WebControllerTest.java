@@ -1,5 +1,6 @@
 package com.codecool.dartcc.controller;
 
+import com.codecool.dartcc.exception.GameNotFoundException;
 import com.codecool.dartcc.exception.NoCheckoutFoundException;
 import com.codecool.dartcc.model.Game;
 import com.codecool.dartcc.model.Player;
@@ -16,6 +17,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.doThrow;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -91,6 +93,23 @@ public class WebControllerTest {
                 .content(reqBody)
         )
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    public void testTurnEndpointReturnsBadRequestIfGameNotFound() throws Exception {
+        String reqBody = mapper.writeValueAsString(turnRequest);
+
+        try {
+            doThrow(GameNotFoundException.class).when(mockGameService).updateGame(reqBody);
+        } catch (GameNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        mvc.perform(put("/turn")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(reqBody)
+        )
+                .andExpect(status().isBadRequest());
     }
 
     @Test

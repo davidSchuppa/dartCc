@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.aspectj.apache.bcel.util.Play;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -53,11 +54,19 @@ public class PlayerService {
 
     private Player updatePlayerData(Player data) {
         Player player = playerRepository.findPlayerByName(data.getName());
-        player.setWins(data.getWins());
         player.setBestOfThree(data.getBestOfThree());
         player.setAvgPerDart(data.getAvgPerDart());
         player.setAvgPerRound(data.getAvgPerRound());
         return player;
 
+    }
+
+    public Player findPlayerByName(String name) {
+        return playerRepository.findPlayerByName(name);
+    }
+
+    public void addWinToPlayer(Player player) {
+        player.setWins(player.getWins() + 1);
+        playerRepository.save(player);
     }
 }
